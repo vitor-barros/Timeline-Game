@@ -1,258 +1,174 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ProgressBar;
-import javafx.scene.control.Slider;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.control.*;
+import javafx.scene.image.*;
 import javafx.scene.layout.VBox;
 import model.EventosHistoricos;
+import model.Player;
+import model.Round;
+
+import java.util.*;
 
 public class GameController {
 
     @FXML
     private VBox rootVBox;
-
     @FXML
     private Slider timelineSlider;
-
     @FXML
-    private Label currentYearLabel;
-
-    @FXML
-    private Label player1NameLabel;
-
-    @FXML
-    private Label player2NameLabel;
-
-    @FXML
-    private Label player3NameLabel;
-
-    @FXML
-    private Label player4NameLabel;
-
-    @FXML
-    private ImageView player1Avatar;
-
-    @FXML
-    private ImageView player2Avatar;
-
-    @FXML
-    private ImageView player3Avatar;
-
-    @FXML
-    private ImageView player4Avatar;
-
-    @FXML
-    private Label player1GuessLabel;
-
-    @FXML
-    private Label player2GuessLabel;
-
-    @FXML
-    private Label player3GuessLabel;
-
-    @FXML
-    private Label player4GuessLabel;
-
-    @FXML
-    private Button incrementButton;
-
-    @FXML
-    private Button incrementButtonDouble;
-
-    @FXML
-    private Button decrementButton;
-
-    @FXML
-    private Button decrementButtonDouble;
-
-    @FXML
-    private Button confirmButton;
-
-    @FXML
-    private Label currentPlayerLabel;
-
+    private Label currentYearLabel, currentPlayerLabel, labelDescricaoEvento;
     @FXML
     private ImageView imageViewEvento;
-
-    @FXML
-    private Label labelDescricaoEvento;
-    
     @FXML
     private ProgressBar progressBarTimer;
-    
     @FXML
     private Label timerLabel;
+    @FXML
+    private Button incrementButton, incrementButtonDouble, decrementButton, decrementButtonDouble, confirmButton;
+    @FXML
+    private Label player1NameLabel, player2NameLabel, player3NameLabel, player4NameLabel;
+    @FXML
+    private Label player1PointsLabel, player2PointsLabel, player3PointsLabel, player4PointsLabel;
+    @FXML
+    private Label player1GuessLabel, player2GuessLabel, player3GuessLabel, player4GuessLabel;
+    @FXML
+    private ImageView player1Avatar, player2Avatar, player3Avatar, player4Avatar;
 
-    // Injeção do TimerController via FXML
+    private List<Player> players;
+    private Round round;
+    private int currentPlayerIndex = 0;
+    private Map<Player, Integer> playerGuesses = new HashMap<>();
+    private List<EventosHistoricos> eventos;
+    private int anoCorreto;
     @FXML
     private TimerController timerController;
 
-    
-    public int currentPlayer = 1;
-    private Map<Integer, Integer> playerGuesses = new HashMap<>();
-    private List<EventosHistoricos> eventos;
-
     @FXML
     public void initialize() {
-    	timerController = new TimerController();
-        //  se o timerController foi corretamente injetado
+        timerController = new TimerController();
         if (timerController == null) {
             System.out.println("Erro: TimerController não foi injetado!");
             return;
         }
-
-        // Configura o TimerController com a barra de progresso e o label do tempo
         timerController.setProgressBar(progressBarTimer);
         timerController.setTimerLabel(timerLabel);
-
-        // Inicializa o jogo
+        
         initializeGame();
 
-        // Configura ações dos botões
         confirmButton.setOnAction(event -> confirmGuess());
         incrementButton.setOnAction(event -> incrementYear(1));
         incrementButtonDouble.setOnAction(event -> incrementYear(10));
         decrementButton.setOnAction(event -> incrementYear(-1));
         decrementButtonDouble.setOnAction(event -> incrementYear(-10));
 
-        // Atualiza o slider de tempo
         timelineSlider.valueProperty().addListener((observable, oldValue, newValue) -> {
             currentYearLabel.setText("Ano: " + newValue.intValue());
         });
 
-        // Ajusta o layout
-        rootVBox.widthProperty().addListener((observable, oldValue, newValue) -> {
-            adjustLayout(newValue.doubleValue(), rootVBox.getHeight());
-        });
-
-        rootVBox.heightProperty().addListener((observable, oldValue, newValue) -> {
-            adjustLayout(rootVBox.getWidth(), newValue.doubleValue());
-        });
+        rootVBox.widthProperty().addListener((observable, oldValue, newValue) -> adjustLayout(newValue.doubleValue(), rootVBox.getHeight()));
+        rootVBox.heightProperty().addListener((observable, oldValue, newValue) -> adjustLayout(rootVBox.getWidth(), newValue.doubleValue()));
     }
 
     private void initializeGame() {
+        players = new ArrayList<>();
+        players.add(new Player("Jogador 1", new Image("/images/avatar1.png")));
+        players.add(new Player("Jogador 2", new Image("/images/avatar2.png")));
+        players.add(new Player("Jogador 3", new Image("/images/avatar3.png")));
+        players.add(new Player("Jogador 4", new Image("/images/avatar4.png")));
+        eventos = new ArrayList<>();
         eventos = new ArrayList<>();
         eventos.add(new EventosHistoricos("Independência do Brasil", 1822, "/images/avatar1.png"));
         eventos.add(new EventosHistoricos("Revolução Francesa", 1789, "/images/avatar2.png"));
         eventos.add(new EventosHistoricos("Primeira Guerra Mundial", 1914, "/images/avatar3.png"));
 
-        iniciarRodadaComEventoAleatorio(); // Inicia a primeira rodada
+        round = new Round(players, 5);  // Define o número máximo de rodadas como 5
+        iniciarRodadaComEventoAleatorio();
+        atualizarLabels();
 
-        // Inicia o temporizador da rodada, garantindo que o timerController não é nulo
         if (timerController != null) {
             timerController.startRoundTimer(15, this::endPlayerTurn);
-        } else {
-            System.out.println("Erro: TimerController não está disponível para iniciar o temporizador.");
         }
     }
 
     public void confirmGuess() {
-        int guess = (int) timelineSlider.getValue();
-        playerGuesses.put(currentPlayer, guess);
-
-        switch (currentPlayer) {
-            case 1:
-                player1GuessLabel.setText("Palpite: " + guess);
-                break;
-            case 2:
-                player2GuessLabel.setText("Palpite: " + guess);
-                break;
-            case 3:
-                player3GuessLabel.setText("Palpite: " + guess);
-                break;
-            case 4:
-                player4GuessLabel.setText("Palpite: " + guess);
-                break;
-        }
-        endPlayerTurn();
-    }
-
-    private void endPlayerTurn() {
-        if (currentPlayer == 4) {
-            finalizarRodada(); // Todos os jogadores jogaram
+        int guess = (int) timelineSlider.getValue(); // obtem o palpite do jogador atual
+        Player currentPlayer = players.get(currentPlayerIndex); // obtem o jogador atual
+        currentPlayer.setGuess(guess);  // define o paplite do jogador
+        playerGuesses.put(currentPlayer, guess); // adiciona o paplite do jogador ao jogador
+        atualizarPalpiteLabel();
+        
+        if (currentPlayerIndex == players.size() - 1) {
+            finalizarRodada();
         } else {
-        	// eu tenho que saber de quem é a vez pra jogar no
-        	// label do palpite
-            currentPlayer++;
+            currentPlayerIndex++;
             atualizarTurno();
             timerController.startRoundTimer(15, this::endPlayerTurn);
         }
     }
 
-    public void stopTimer() {
-        timerController.stopTimer();
+    private void endPlayerTurn() {
+        if (currentPlayerIndex == players.size() - 1) {
+            finalizarRodada();
+        } else {
+            currentPlayerIndex++;
+            atualizarTurno();
+            timerController.startRoundTimer(15, this::endPlayerTurn);
+        }
     }
 
     private void finalizarRodada() {
-        currentPlayer = 1;
-        playerGuesses.clear();
-        player1GuessLabel.setText("Palpite: ");
-        player2GuessLabel.setText("Palpite: ");
-        player3GuessLabel.setText("Palpite: ");
-        player4GuessLabel.setText("Palpite: ");
-        timerController.stopTimer();
-        iniciarRodadaComEventoAleatorio();
-
-        // Reinicia o temporizador da rodada
-        timerController.startRoundTimer(15, this::endPlayerTurn);
-    }
-
-    public void incrementYear(int value) {
-        double currentValue = timelineSlider.getValue();
-        double newValue = currentValue + value;
-
-        if (newValue >= timelineSlider.getMin() && newValue <= timelineSlider.getMax()) {
-            timelineSlider.setValue(newValue);
+        currentPlayerIndex = 0;
+        atribuirPontuacoes();
+        atualizarLabels();
+        if (round.isGameOver()) {
+            // Finalizar o jogo
+            System.out.println("Fim do jogo! Pontuações finais: ");
+            for (Player player : players) {
+                System.out.println(player.getName() + ": " + player.getPoints() + " pontos");
+            }
+        } else {
+            round.nextRound();
+            iniciarRodadaComEventoAleatorio();
+            atualizarTurno();
+            timerController.startRoundTimer(15, this::endPlayerTurn);
         }
     }
 
-    public void iniciarRodadaComEventoAleatorio() {
+    private void atribuirPontuacoes() {
+        // Exemplo de lógica: o jogador que acertar o ano exato recebe 10 pontos, os demais recebem 1 ponto 	
+    	for (Player player : players) {
+    		int guess = player.getGuess();
+    		int diferenca = Math.abs(guess - anoCorreto);
+    		System.out.println(diferenca);
+            if (diferenca == 0) {
+                player.addPoints(10);
+            } else if (diferenca <= 5) {
+            	player.addPoints(7);
+            } else if (diferenca <= 10) {
+            	player.addPoints(5);
+            } else if (diferenca <= 20) {
+            	player.addPoints(3);
+            } else {
+            	player.addPoints(1);
+            }
+        }
+    }
+
+    private void iniciarRodadaComEventoAleatorio() {
         if (!eventos.isEmpty()) {
             int randomIndex = (int) (Math.random() * eventos.size());
             EventosHistoricos eventoSelecionado = eventos.remove(randomIndex);
-
-            iniciarRodadaComEvento(eventoSelecionado.getDescricao(), eventoSelecionado.getAnoCorreto(), eventoSelecionado.getCaminhoImagem());
-        } else {
-            System.out.println("Todos os eventos foram utilizados!");
+            atualizarImagemEvento(eventoSelecionado.getCaminhoImagem());
+            atualizarDescricaoEvento(eventoSelecionado.getDescricao());
+            anoCorreto = eventoSelecionado.getAnoCorreto();
         }
     }
 
-    public void iniciarRodadaComEvento(String descricao, int anoCorreto, String caminhoImagem) {
-        atualizarImagemEvento(caminhoImagem);
-        atualizarDescricaoEvento(descricao);
-    }
-
     public void atualizarTurno() {
-        currentPlayerLabel.setText("Vez de: Jogador " + currentPlayer);
+        Player currentPlayer = players.get(currentPlayerIndex);
+        currentPlayerLabel.setText("Vez de: " + currentPlayer.getName());
         timelineSlider.setValue(1012.0); // valor inicial
-    }
-
-    private void adjustLayout(double width, double height) {
-        double newSliderWidth = width * 0.8;
-        timelineSlider.setPrefWidth(newSliderWidth);
-    }
-
-    public void setPlayerNames(String player1Name, String player2Name, String player3Name, String player4Name) {
-        player1NameLabel.setText(player1Name);
-        player2NameLabel.setText(player2Name);
-        player3NameLabel.setText(player3Name);
-        player4NameLabel.setText(player4Name);
-    }
-
-    public void setPlayerAvatars(Image avatar1, Image avatar2, Image avatar3, Image avatar4) {
-        player1Avatar.setImage(avatar1);
-        player2Avatar.setImage(avatar2);
-        player3Avatar.setImage(avatar3);
-        player4Avatar.setImage(avatar4);
     }
 
     public void atualizarImagemEvento(String caminhoImagem) {
@@ -263,4 +179,73 @@ public class GameController {
     public void atualizarDescricaoEvento(String descricao) {
         labelDescricaoEvento.setText(descricao);
     }
+
+    private void adjustLayout(double width, double height) {
+        double newSliderWidth = width * 0.8;
+        timelineSlider.setPrefWidth(newSliderWidth);
+    }
+
+    public void incrementYear(int value) {
+        double currentValue = timelineSlider.getValue();
+        double newValue = currentValue + value;
+        if (newValue >= timelineSlider.getMin() && newValue <= timelineSlider.getMax()) {
+            timelineSlider.setValue(newValue);
+        }
+    }
+
+    public void setPlayerAvatars(Image avatar1, Image avatar2, Image avatar3, Image avatar4) {
+        players.get(0).setAvatar(avatar1);
+        players.get(1).setAvatar(avatar2);
+        players.get(2).setAvatar(avatar3);
+        players.get(3).setAvatar(avatar4);
+
+        // Atualize a exibição dos avatares na interface gráfica
+        player1Avatar.setImage(avatar1);
+        player2Avatar.setImage(avatar2);
+        player3Avatar.setImage(avatar3);
+        player4Avatar.setImage(avatar4);
+    }
+    
+    public void setPlayerNames(String name1, String name2, String name3, String name4) {
+        players.get(0).setName(name1);
+        players.get(1).setName(name2);
+        players.get(2).setName(name3);
+        players.get(3).setName(name4);
+        atualizarLabels();  // Atualiza os labels após definir os nomes
+    }
+
+    private void atualizarLabels() {
+        // Atualiza os nomes dos jogadores
+        player1NameLabel.setText(players.get(0).getName());
+        player2NameLabel.setText(players.get(1).getName());
+        player3NameLabel.setText(players.get(2).getName());
+        player4NameLabel.setText(players.get(3).getName());
+
+        // Atualiza os avatares dos jogadores
+        player1Avatar.setImage(players.get(0).getAvatar());
+        player2Avatar.setImage(players.get(1).getAvatar());
+        player3Avatar.setImage(players.get(2).getAvatar());
+        player4Avatar.setImage(players.get(3).getAvatar());
+
+        // Atualiza os pontos dos jogadores
+        player1PointsLabel.setText("Pontos: " + players.get(0).getPoints());
+        player2PointsLabel.setText("Pontos: " + players.get(1).getPoints());
+        player3PointsLabel.setText("Pontos: " + players.get(2).getPoints());
+        player4PointsLabel.setText("Pontos: " + players.get(3).getPoints());
+
+        // Atualiza os palpites dos jogadores
+        player1GuessLabel.setText("Palpite: " + playerGuesses.getOrDefault(players.get(0), 0));
+        player2GuessLabel.setText("Palpite: " + playerGuesses.getOrDefault(players.get(1), 0));
+        player3GuessLabel.setText("Palpite: " + playerGuesses.getOrDefault(players.get(2), 0));
+        player4GuessLabel.setText("Palpite: " + playerGuesses.getOrDefault(players.get(3), 0));
+    }
+    private void atualizarPalpiteLabel() {
+        Player currentPlayer = players.get(currentPlayerIndex);
+        String guessLabelId = "player" + (currentPlayerIndex + 1) + "GuessLabel";
+        Label guessLabel = (Label) rootVBox.lookup("#" + guessLabelId);
+        if (guessLabel != null) {
+            guessLabel.setText("Palpite: " + currentPlayer.getGuess());
+        }
+    }
+
 }

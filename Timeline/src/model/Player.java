@@ -14,13 +14,20 @@ public class Player {
         this.points = 0;
     }
 
-    // Getters e Setters
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public Image getAvatar() {
         return avatar;
+    }
+
+    public void setAvatar(Image avatar) {
+        this.avatar = avatar;
     }
 
     public int getPoints() {
