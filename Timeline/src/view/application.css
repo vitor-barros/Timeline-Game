@@ -1,1 +1,56 @@
-/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+/* application.css */
+
+/* Definições gerais */
+#rootVBox {
+    -fx-background-color: linear-gradient(to bottom, #FFF5BF, #E8C38F);
+}
+
+.root {
+    -fx-background-color: #F2E9BD; /* Cor de fundo clara */
+    
+}
+
+/* Estilo dos botões */
+.button {
+    -fx-background-color: #F2CB9B; /* Cor de fundo dos botões */
+    -fx-text-fill: #011826; /* Cor do texto dos botões */
+    -fx-font-family: "Georgia", serif; /* Fonte manuscrita com um toque antigo */
+    -fx-font-size: 15px;
+    -fx-padding: 10px 20px; /* Padding interno do botão */
+    -fx-border-color: #D97D48; /* Cor da borda do botão */
+    -fx-border-width: 2px; /* Largura da borda */
+    -fx-border-radius: 15px; /* Borda arredondada */
+    -fx-background-radius: 15px; /* Arredondamento do fundo */
+    -fx-effect: dropshadow(gaussian, #8C3623, 10, 0.5, 0, 0); /* Efeito de sombra */
+    -fx-cursor: hand; /* Cursor de mão ao passar sobre o botão */
+}
+
+.button:hover {
+    -fx-background-color: #D97D48; /* Cor de fundo quando o botão é hoverado */
+    -fx-text-fill: #F2E9BD; /* Cor do texto quando o botão é hoverado */
+    -fx-border-color: #F2CB9B; /* Cor da borda quando o botão é hoverado */
+    -fx-scale-x: 1.1; /* Escala de 110% ao passar o mouse sobre o botão */
+    -fx-scale-y: 1.1; /* Escala de 110% ao passar o mouse sobre o botão */
+}
+
+/* Estilo dos labels */
+.label {
+    -fx-font-family: "Georgia", serif; /* Fonte manuscrita com um toque antigo */
+    -fx-font-size: 18px;
+    -fx-text-fill: #011826; /* Cor do texto dos labels */
+}
+
+/* Estilo dos ImageViews */
+.image-view {
+    -fx-background-color: #F2E9BD; /* Cor de fundo dos ImageViews */
+    -fx-border-color: #D97D48; /* Cor da borda dos ImageViews */
+    -fx-border-width: 2px; /* Largura da borda */
+    -fx-border-radius: 15px; /* Borda arredondada */
+    -fx-background-radius: 15px; /* Arredondamento do fundo */
+}
+
+/* Estilo dos sliders */
+.slider {
+    -fx-background-color: #F2E9BD; /* Cor de fundo do slider */
+    -fx-accent: #D97D48; /* Cor do indicador do slider */
+}

@@ -102,14 +102,19 @@ public class MenuController {
                 
                 // Define a nova cena
                 Scene gameScene = new Scene(gameRoot);
+                gameScene.getStylesheets().add(getClass().getResource("/view/application.css").toExternalForm());
+                
                 Stage primaryStage = (Stage) playButton.getScene().getWindow();
                 primaryStage.setScene(gameScene);
-                primaryStage.setTitle("Linha do Tempo - Jogo");
+                primaryStage.setTitle("Linha do Tempo - Jogando");
+                
+                primaryStage.setFullScreen(true); 
+                primaryStage.setFullScreenExitHint(""); // Remove a dica de sair do modo tela cheia
                 
                 // Ajusta o tamanho da janela conforme necessário
-                primaryStage.setWidth(900);
-                primaryStage.setHeight(700);
-                primaryStage.centerOnScreen();
+//                primaryStage.setWidth(900);
+//                primaryStage.setHeight(700);
+//                primaryStage.centerOnScreen();
                 
             } catch (IOException e) {
                 e.printStackTrace();

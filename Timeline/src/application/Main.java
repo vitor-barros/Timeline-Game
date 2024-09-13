@@ -18,8 +18,9 @@ public class Main extends Application {
             
             // Define a cena e a exibe
             Scene scene = new Scene(root);
+            scene.getStylesheets().add(getClass().getResource("/view/application.css").toExternalForm());
             primaryStage.setScene(scene);
-            primaryStage.setTitle("Timeline Game");
+            primaryStage.setTitle("Jogo Linha do Tempo");
             
             // Ativa o modo tela cheia
             primaryStage.setFullScreen(true); 
@@ -31,7 +32,7 @@ public class Main extends Application {
             
             // Define valores mínimos ajustados conforme a resolução da tela
             double minWidth = Math.min(800, screenWidth);
-            double minHeight = Math.min(600, screenHeight);
+            double minHeight = Math.min(800, screenHeight);
       
             primaryStage.setMinWidth(minWidth);
             primaryStage.setMinHeight(minHeight);

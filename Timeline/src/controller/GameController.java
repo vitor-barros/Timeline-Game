@@ -46,6 +46,8 @@ public class GameController {
 
     @FXML
     public void initialize() {
+    	
+    	
         timerController = new TimerController();
         if (timerController == null) {
             System.out.println("Erro: TimerController não foi injetado!");
@@ -81,6 +83,7 @@ public class GameController {
         eventos.add(new EventosHistoricos("Independência do Brasil", 1822, "/images/avatar1.png"));
         eventos.add(new EventosHistoricos("Revolução Francesa", 1789, "/images/avatar2.png"));
         eventos.add(new EventosHistoricos("Primeira Guerra Mundial", 1914, "/images/avatar3.png"));
+        eventos.add(new EventosHistoricos("Publicação de \"A Origem das Espécies\" por Charles Darwin.", 1859, "/images/evento01.jpeg"));
 
         round = new Round(players, 5);  // Define o número máximo de rodadas como 5
         iniciarRodadaComEventoAleatorio();
