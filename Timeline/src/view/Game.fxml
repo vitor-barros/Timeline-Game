@@ -6,14 +6,14 @@
 <?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<VBox fx:id="rootVBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="10.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameController">
+<VBox fx:id="rootVBox" alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="800.0" spacing="10.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.GameController">
    <children>
       <!-- Avatares e Nomes dos Jogadores -->
       <HBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="800.0" spacing="20.0">
@@ -22,7 +22,7 @@
          </padding>
          <children>
             <!-- Avatar e nome do jogador 1 -->
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="5.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="5.0" styleClass="image-view">
                <children>
                   <ImageView fx:id="player1Avatar" fitHeight="99.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true" />
                   <Label fx:id="player1NameLabel" alignment="TOP_CENTER" text="Jogador 1" />
@@ -31,7 +31,7 @@
                </children>
             </VBox>
             <!-- Avatar e nome do jogador 2 -->
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="5.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="5.0" styleClass="image-view">
                <children>
                   <ImageView fx:id="player2Avatar" fitHeight="99.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true" />
                   <Label fx:id="player2NameLabel" alignment="TOP_CENTER" text="Jogador 2" />
@@ -50,19 +50,15 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label fx:id="currentYearLabel" alignment="CENTER" prefHeight="48.0" prefWidth="200.0" text="Ano: 1012" GridPane.columnSpan="2" GridPane.rowIndex="1">
-                     <font>
-                        <Font name="System Bold" size="18.0" />
-                     </font>
-                  </Label>
-                  <Button fx:id="incrementButtonDouble" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="71.0" prefWidth="115.0" text="++" textOverrun="CLIP" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label fx:id="currentYearLabel" alignment="CENTER" prefHeight="48.0" prefWidth="200.0" text="Ano: 1012" GridPane.columnSpan="2" GridPane.rowIndex="1" />
+                  <Button fx:id="incrementButtonDouble" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" prefHeight="71.0" prefWidth="115.0" text="++" textAlignment="JUSTIFY" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <Button fx:id="decrementButtonDouble" mnemonicParsing="false" prefHeight="69.0" prefWidth="100.0" text="--" GridPane.columnIndex="1" />
                   <Button fx:id="decrementButton" mnemonicParsing="false" prefHeight="66.0" prefWidth="100.0" text="-" />
                   <Button fx:id="incrementButton" mnemonicParsing="false" prefHeight="64.0" prefWidth="100.0" text="+" GridPane.rowIndex="2" />
                </children>
             </GridPane>
             <!-- Avatar e nome do jogador 3 -->
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="5.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="5.0" styleClass="image-view">
                <children>
                   <ImageView fx:id="player3Avatar" fitHeight="99.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true" />
                   <Label fx:id="player3NameLabel" alignment="TOP_CENTER" text="Jogador 3" />
@@ -71,7 +67,7 @@
                </children>
             </VBox>
             <!-- Avatar e nome do jogador 4 -->
-            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="5.0">
+            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="200.0" spacing="5.0" styleClass="image-view">
                <children>
                   <ImageView fx:id="player4Avatar" fitHeight="99.0" fitWidth="101.0" pickOnBounds="true" preserveRatio="true" />
                   <Label fx:id="player4NameLabel" alignment="TOP_CENTER" text="Jogador 4" />
@@ -89,26 +85,46 @@
          </VBox.margin>
       </Slider>
       <VBox alignment="CENTER" prefHeight="195.0" prefWidth="259.0" spacing="10.0">
+		    <children>
+		        <Label fx:id="labelDescricaoEvento" alignment="CENTER" prefHeight="65.0" prefWidth="756.0" text="Evento Histórico" wrapText="true">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+               <padding>
+                  <Insets top="5.0" />
+               </padding>
+		        </Label>
+		        <ImageView fx:id="imageViewEvento" fitHeight="200.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true" />
+		    </children>
+         <VBox.margin>
+            <Insets top="5.0" />
+         </VBox.margin>
+		</VBox>
+      <HBox alignment="CENTER" prefHeight="87.0" prefWidth="760.0" spacing="15.0">
          <children>
-            <Label fx:id="labelDescricaoEvento" alignment="CENTER" prefHeight="35.0" prefWidth="756.0" text="Evento Histórico" wrapText="true">
-               <font>
-                  <Font name="System Bold" size="24.0" />
-               </font>
-            </Label>
-            <ImageView fx:id="imageViewEvento" fitHeight="150.0" fitWidth="562.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </VBox>
-      <HBox alignment="CENTER" prefHeight="66.0" prefWidth="760.0" spacing="15.0">
-         <children>
-            <VBox prefHeight="52.0" prefWidth="198.0">
+            <VBox prefHeight="39.0" prefWidth="214.0">
                <children>
-                  <ProgressBar fx:id="progressBarTimer" prefHeight="31.0" prefWidth="199.0" progress="1.0" />
-                  <Label fx:id="timerLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="196.0" text="15 s" />
+                  <ProgressBar fx:id="progressBarTimer" prefHeight="32.0" prefWidth="214.0" progress="1.0" />
+                  <Label fx:id="timerLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="214.0" text="15 s" />
                </children>
             </VBox>
          </children>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
       </HBox>
-      <Label fx:id="currentPlayerLabel" alignment="CENTER" prefHeight="30.0" prefWidth="154.0" />
+      <AnchorPane prefHeight="168.0" prefWidth="760.0">
+		   <children>
+		      <!-- Label de Rodada no canto inferior esquerdo -->
+		      <Label fx:id="currentRodadaLabel" layoutX="20.0" layoutY="20.0" prefHeight="38.0" prefWidth="138.0" text="RODADA: " AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+		
+		      <!-- Label de Vez do Jogador no centro -->
+		      <Label fx:id="currentPlayerLabel" alignment="CENTER" layoutX="257.0" layoutY="84.0" prefHeight="30.0" prefWidth="247.0" text="Vez de: " AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="257.0" AnchorPane.rightAnchor="256.0" />
+		
+		      <!-- Botão PowerUps no canto inferior direito -->
+		      <Button fx:id="powerUpButton" layoutX="667.0" layoutY="121.0" mnemonicParsing="false" prefHeight="48.0" prefWidth="108.0" text="PowerUps" textOverrun="CLIP" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+		   </children>
+		</AnchorPane>
    </children>
    <padding>
       <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

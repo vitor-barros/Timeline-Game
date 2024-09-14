@@ -1,5 +1,5 @@
 /* application.css */
-
+ 
 /* Definições gerais */
 #rootVBox {
     -fx-background-color: linear-gradient(to bottom, #FFF5BF, #E8C38F);
@@ -54,3 +54,20 @@
     -fx-background-color: #F2E9BD; /* Cor de fundo do slider */
     -fx-accent: #D97D48; /* Cor do indicador do slider */
 }
+/* Estilo para o Label que exibe o ano atual */
+#currentYearLabel {
+    -fx-border-width: 3px;
+    -fx-border-color: linear-gradient(to right, #FFD700, #FFA500);
+    -fx-border-radius: 10px;
+    -fx-padding: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(255, 215, 0, 0.5), 10, 0.5, 0, 0);
+}
+
+
+
+
+/* Animação para o efeito de brilho */
+
+
+/* Aplica a animação ao Label */
+

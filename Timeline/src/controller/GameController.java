@@ -1,9 +1,11 @@
 package controller;
 
+import javafx.animation.PauseTransition; // Importação para o atraso
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.image.*;
 import javafx.scene.layout.VBox;
+import javafx.util.Duration;
 import model.EventosHistoricos;
 import model.Player;
 import model.Round;
@@ -31,14 +33,13 @@ public class GameController {
     @FXML
     private Label player1PointsLabel, player2PointsLabel, player3PointsLabel, player4PointsLabel;
     @FXML
-    private Label player1GuessLabel, player2GuessLabel, player3GuessLabel, player4GuessLabel;
+    private Label player1GuessLabel, player2GuessLabel, player3GuessLabel, player4GuessLabel, currentRodadaLabel;
     @FXML
     private ImageView player1Avatar, player2Avatar, player3Avatar, player4Avatar;
 
     private List<Player> players;
-    private Round round;
+    private Round round; // pega a classe Round
     private int currentPlayerIndex = 0;
-    private Map<Player, Integer> playerGuesses = new HashMap<>();
     private List<EventosHistoricos> eventos;
     private int anoCorreto;
     @FXML
@@ -46,8 +47,6 @@ public class GameController {
 
     @FXML
     public void initialize() {
-    	
-    	
         timerController = new TimerController();
         if (timerController == null) {
             System.out.println("Erro: TimerController não foi injetado!");
@@ -55,9 +54,8 @@ public class GameController {
         }
         timerController.setProgressBar(progressBarTimer);
         timerController.setTimerLabel(timerLabel);
-        
-        initializeGame();
 
+        initializeGame();
         confirmButton.setOnAction(event -> confirmGuess());
         incrementButton.setOnAction(event -> incrementYear(1));
         incrementButtonDouble.setOnAction(event -> incrementYear(10));
@@ -79,15 +77,16 @@ public class GameController {
         players.add(new Player("Jogador 3", new Image("/images/avatar3.png")));
         players.add(new Player("Jogador 4", new Image("/images/avatar4.png")));
         eventos = new ArrayList<>();
-        eventos = new ArrayList<>();
         eventos.add(new EventosHistoricos("Independência do Brasil", 1822, "/images/avatar1.png"));
         eventos.add(new EventosHistoricos("Revolução Francesa", 1789, "/images/avatar2.png"));
         eventos.add(new EventosHistoricos("Primeira Guerra Mundial", 1914, "/images/avatar3.png"));
         eventos.add(new EventosHistoricos("Publicação de \"A Origem das Espécies\" por Charles Darwin.", 1859, "/images/evento01.jpeg"));
-
+        eventos.add(new EventosHistoricos("Descobrimento do Brasil", 1500, "/images/evento02.jpeg"));
+        
         round = new Round(players, 5);  // Define o número máximo de rodadas como 5
         iniciarRodadaComEventoAleatorio();
         atualizarLabels();
+        atualizarTurno(); // Adiciona chamada para atualizar o nome do jogador na primeira rodada
 
         if (timerController != null) {
             timerController.startRoundTimer(15, this::endPlayerTurn);
@@ -95,12 +94,11 @@ public class GameController {
     }
 
     public void confirmGuess() {
-        int guess = (int) timelineSlider.getValue(); // obtem o palpite do jogador atual
-        Player currentPlayer = players.get(currentPlayerIndex); // obtem o jogador atual
-        currentPlayer.setGuess(guess);  // define o paplite do jogador
-        playerGuesses.put(currentPlayer, guess); // adiciona o paplite do jogador ao jogador
-        atualizarPalpiteLabel();
-        
+        int guess = (int) timelineSlider.getValue(); // Obtem o palpite do jogador atual
+        Player currentPlayer = players.get(currentPlayerIndex); // Obtem o jogador atual
+        currentPlayer.addGuess(guess);  // Adiciona o palpite do jogador
+        atualizarPalpiteLabel(); // Atualiza o label do palpite
+
         if (currentPlayerIndex == players.size() - 1) {
             finalizarRodada();
         } else {
@@ -121,39 +119,46 @@ public class GameController {
     }
 
     private void finalizarRodada() {
+        // Limpa o índice do jogador atual e atribui pontuações
         currentPlayerIndex = 0;
         atribuirPontuacoes();
         atualizarLabels();
-        if (round.isGameOver()) {
-            // Finalizar o jogo
-            System.out.println("Fim do jogo! Pontuações finais: ");
-            for (Player player : players) {
-                System.out.println(player.getName() + ": " + player.getPoints() + " pontos");
-            }
-        } else {
-            round.nextRound();
-            iniciarRodadaComEventoAleatorio();
-            atualizarTurno();
-            timerController.startRoundTimer(15, this::endPlayerTurn);
+
+        // Exibe a lista completa de palpites no console
+        System.out.println("Palpites de cada jogador: ");
+        for (Player player : players) {
+            System.out.println(player.getName() + ": " + player.getGuesses());
         }
+            if (round.isGameOver()) {
+                // Finalizar o jogo
+                System.out.println("Fim do jogo! Pontuações finais: ");
+                for (Player player : players) {
+                    System.out.println(player.getName() + ": " + player.getPoints() + " pontos");
+                }
+            } else {
+                round.nextRound();
+                iniciarRodadaComEventoAleatorio();
+                atualizarTurno();
+                timerController.startRoundTimer(15, this::endPlayerTurn);
+            }
     }
 
     private void atribuirPontuacoes() {
-        // Exemplo de lógica: o jogador que acertar o ano exato recebe 10 pontos, os demais recebem 1 ponto 	
-    	for (Player player : players) {
-    		int guess = player.getGuess();
-    		int diferenca = Math.abs(guess - anoCorreto);
-    		System.out.println(diferenca);
+        // Exemplo de lógica: o jogador que acertar o ano exato recebe 10 pontos, os demais recebem 1 ponto
+        for (Player player : players) {
+            int guess = player.getLastGuess();
+            int diferenca = Math.abs(guess - anoCorreto);
+            System.out.println(diferenca);
             if (diferenca == 0) {
                 player.addPoints(10);
             } else if (diferenca <= 5) {
-            	player.addPoints(7);
+                player.addPoints(7);
             } else if (diferenca <= 10) {
-            	player.addPoints(5);
+                player.addPoints(5);
             } else if (diferenca <= 20) {
-            	player.addPoints(3);
+                player.addPoints(3);
             } else {
-            	player.addPoints(1);
+                player.addPoints(1);
             }
         }
     }
@@ -171,6 +176,7 @@ public class GameController {
     public void atualizarTurno() {
         Player currentPlayer = players.get(currentPlayerIndex);
         currentPlayerLabel.setText("Vez de: " + currentPlayer.getName());
+        currentRodadaLabel.setText("RODADA: " + round.getCurrentRound() + " / " + round.getMaxRounds());
         timelineSlider.setValue(1012.0); // valor inicial
     }
 
@@ -208,7 +214,7 @@ public class GameController {
         player3Avatar.setImage(avatar3);
         player4Avatar.setImage(avatar4);
     }
-    
+
     public void setPlayerNames(String name1, String name2, String name3, String name4) {
         players.get(0).setName(name1);
         players.get(1).setName(name2);
@@ -237,18 +243,18 @@ public class GameController {
         player4PointsLabel.setText("Pontos: " + players.get(3).getPoints());
 
         // Atualiza os palpites dos jogadores
-        player1GuessLabel.setText("Palpite: " + playerGuesses.getOrDefault(players.get(0), 0));
-        player2GuessLabel.setText("Palpite: " + playerGuesses.getOrDefault(players.get(1), 0));
-        player3GuessLabel.setText("Palpite: " + playerGuesses.getOrDefault(players.get(2), 0));
-        player4GuessLabel.setText("Palpite: " + playerGuesses.getOrDefault(players.get(3), 0));
+        player1GuessLabel.setText("Palpite: " + players.get(0).getLastGuess());
+        player2GuessLabel.setText("Palpite: " + players.get(1).getLastGuess());
+        player3GuessLabel.setText("Palpite: " + players.get(2).getLastGuess());
+        player4GuessLabel.setText("Palpite: " + players.get(3).getLastGuess());
     }
+
     private void atualizarPalpiteLabel() {
         Player currentPlayer = players.get(currentPlayerIndex);
         String guessLabelId = "player" + (currentPlayerIndex + 1) + "GuessLabel";
         Label guessLabel = (Label) rootVBox.lookup("#" + guessLabelId);
         if (guessLabel != null) {
-            guessLabel.setText("Palpite: " + currentPlayer.getGuess());
+            guessLabel.setText("Palpite: " + currentPlayer.getLastGuess());
         }
     }
-
 }

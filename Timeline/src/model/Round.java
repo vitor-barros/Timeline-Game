@@ -36,4 +36,7 @@ public class Round {
     public List<Player> getPlayers() {
         return players;
     }
+    public int getMaxRounds() {
+        return maxRounds;
+    }
 }
