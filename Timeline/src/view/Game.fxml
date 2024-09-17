@@ -116,7 +116,7 @@
       <AnchorPane prefHeight="168.0" prefWidth="760.0">
 		   <children>
 		      <!-- Label de Rodada no canto inferior esquerdo -->
-		      <Label fx:id="currentRodadaLabel" layoutX="20.0" layoutY="20.0" prefHeight="38.0" prefWidth="138.0" text="RODADA: " AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" />
+		      <Label fx:id="currentRodadaLabel" layoutX="20.0" layoutY="20.0" prefHeight="38.0" prefWidth="138.0" text="RODADA: " AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" styleClass="image-view"/>
 		
 		      <!-- Label de Vez do Jogador no centro -->
 		      <Label fx:id="currentPlayerLabel" alignment="CENTER" layoutX="257.0" layoutY="84.0" prefHeight="30.0" prefWidth="247.0" text="Vez de: " AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="257.0" AnchorPane.rightAnchor="256.0" />

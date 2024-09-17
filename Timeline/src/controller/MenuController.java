@@ -40,12 +40,18 @@ public class MenuController {
     private ImageView player3Avatar;
     @FXML
     private ImageView player4Avatar;
-
+    @FXML
+    private ImageView titleImage;
+    
     @FXML
     private Label statusLabel;
 
     @FXML
     private void initialize() {
+    	 // Carregar a imagem do título
+        Image title = new Image(getClass().getResourceAsStream("/images/titulo2removebghd.png"));
+       
+		titleImage.setImage(title);
     	
     	// Carrega as imagens dos avatares
         Image avatar1 = new Image(getClass().getResourceAsStream("/images/avatar1.png"));

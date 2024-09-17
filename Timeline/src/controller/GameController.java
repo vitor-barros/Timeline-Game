@@ -1,16 +1,23 @@
 package controller;
 
-import javafx.animation.PauseTransition; // Importação para o atraso
+import java.util.ArrayList;
+import java.util.List;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
-import javafx.scene.image.*;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.util.Duration;
+import javafx.stage.Stage;
 import model.EventosHistoricos;
 import model.Player;
 import model.Round;
-
-import java.util.*;
 
 public class GameController {
 
@@ -83,7 +90,7 @@ public class GameController {
         eventos.add(new EventosHistoricos("Publicação de \"A Origem das Espécies\" por Charles Darwin.", 1859, "/images/evento01.jpeg"));
         eventos.add(new EventosHistoricos("Descobrimento do Brasil", 1500, "/images/evento02.jpeg"));
         
-        round = new Round(players, 5);  // Define o número máximo de rodadas como 5
+        round = new Round(players, 4);  // Define o número máximo de rodadas como 5, (A  RODADA COMEÇA NO 0)
         iniciarRodadaComEventoAleatorio();
         atualizarLabels();
         atualizarTurno(); // Adiciona chamada para atualizar o nome do jogador na primeira rodada
@@ -115,6 +122,7 @@ public class GameController {
             currentPlayerIndex++;
             atualizarTurno();
             timerController.startRoundTimer(15, this::endPlayerTurn);
+            
         }
     }
 
@@ -135,6 +143,7 @@ public class GameController {
                 for (Player player : players) {
                     System.out.println(player.getName() + ": " + player.getPoints() + " pontos");
                 }
+                showEndGameScreen();     // inicia a tela de fim de jogo
             } else {
                 round.nextRound();
                 iniciarRodadaComEventoAleatorio();
@@ -176,7 +185,7 @@ public class GameController {
     public void atualizarTurno() {
         Player currentPlayer = players.get(currentPlayerIndex);
         currentPlayerLabel.setText("Vez de: " + currentPlayer.getName());
-        currentRodadaLabel.setText("RODADA: " + round.getCurrentRound() + " / " + round.getMaxRounds());
+        currentRodadaLabel.setText("RODADA: " + round.getCurrentRound() + " / " + (round.getMaxRounds() + 1));
         timelineSlider.setValue(1012.0); // valor inicial
     }
 
@@ -255,6 +264,25 @@ public class GameController {
         Label guessLabel = (Label) rootVBox.lookup("#" + guessLabelId);
         if (guessLabel != null) {
             guessLabel.setText("Palpite: " + currentPlayer.getLastGuess());
+        }
+    }
+    private void showEndGameScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/endgame.fxml"));
+            Parent root = loader.load();
+            
+            EndGameController endGameController = loader.getController();
+            endGameController.setPlayers(this.players);
+            
+            
+            Stage stage = (Stage) rootVBox.getScene().getWindow();
+            Scene endGameScene = new Scene(root);
+            endGameScene.getStylesheets().add(getClass().getResource("/view/application.css").toExternalForm());
+
+            stage.setScene(endGameScene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
