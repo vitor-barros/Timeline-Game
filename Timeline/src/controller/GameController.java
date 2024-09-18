@@ -114,15 +114,23 @@ public class GameController {
             timerController.startRoundTimer(15, this::endPlayerTurn);
         }
     }
-
+    		// Passa para o próximo jogador ou finaliza a rodada
     private void endPlayerTurn() {
+        Player currentPlayer = players.get(currentPlayerIndex);
+
+        // Se o jogador não clicou no botão de confirmar, registra que perdeu a vez
+        if (currentPlayer.getGuesses().isEmpty() || currentPlayer.getLastGuess() != (int) timelineSlider.getValue()) {
+            currentPlayer.addGuess(0);
+            atualizarPalpiteLabel(); // Atualiza o label com "Perdeu a vez"
+        }
+
+        // Passa para o próximo jogador ou finaliza a rodada
         if (currentPlayerIndex == players.size() - 1) {
             finalizarRodada();
         } else {
             currentPlayerIndex++;
             atualizarTurno();
             timerController.startRoundTimer(15, this::endPlayerTurn);
-            
         }
     }
 
@@ -262,8 +270,14 @@ public class GameController {
         Player currentPlayer = players.get(currentPlayerIndex);
         String guessLabelId = "player" + (currentPlayerIndex + 1) + "GuessLabel";
         Label guessLabel = (Label) rootVBox.lookup("#" + guessLabelId);
+
         if (guessLabel != null) {
-            guessLabel.setText("Palpite: " + currentPlayer.getLastGuess());
+            // Verifica se o último palpite foi "Perdeu a vez" ou um número
+            if (currentPlayer.getLastGuess() == 0) {
+                guessLabel.setText("Perdeu a vez!");
+            } else {
+                guessLabel.setText("Palpite: " + currentPlayer.getLastGuess());
+            }
         }
     }
     private void showEndGameScreen() {

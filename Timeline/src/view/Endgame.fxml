@@ -1,50 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="rootVBox" alignment="CENTER" prefHeight="800" prefWidth="800" spacing="20.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EndGameController">
+<VBox id="rootVBox" alignment="CENTER" prefHeight="800" prefWidth="800" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.EndGameController">
 
-    <!-- Container do fundo principal -->
-    <AnchorPane fx:id="backgroundPane" prefHeight="800" prefWidth="800">
-        <children>
+      <!-- "Card" de pergaminho com as opções e o pódio -->
+      <StackPane prefHeight="800.0" prefWidth="800.0" styleClass="stack-pane">
+          <children>
+         <ImageView fx:id="backgroundImageEnd" fitHeight="800.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true" >
+            <viewport>
+               <Rectangle2D />
+            </viewport>
+         </ImageView>
 
-            <!-- Título Fim de Jogo -->
-            <Label alignment="CENTER" layoutX="300.0" layoutY="7.0" prefHeight="111.0" prefWidth="201.0" styleClass="label" text="FIM DE JOGO!" />
+              <!-- Imagem do pódio -->
+              <ImageView fx:id="podiumImageView" fitHeight="800.0" fitWidth="318.0" pickOnBounds="true" preserveRatio="true" />
 
-            <!-- "Card" de pergaminho com as opções e o pódio -->
-            <StackPane layoutX="83.0" layoutY="150.0" prefHeight="500.0" prefWidth="600.0" styleClass="stack-pane">
-                <children>
+              <!-- Avatares no pódio -->
+              <HBox alignment="BOTTOM_CENTER" prefHeight="700.0" prefWidth="700.0" spacing="50" >
+                  <!-- Avatar 2 (2º lugar) -->
+                  <VBox alignment="CENTER" prefHeight="506.0" prefWidth="5.0">
+                      <ImageView fx:id="secondPlaceAvatar" fitHeight="100" fitWidth="100" />
+                      <Label fx:id="secondPlaceLabel" prefHeight="66.0" prefWidth="117.0" style="-fx-text-fill: silver;" text="2º Lugar" />
+                  </VBox>
 
-                    <!-- Imagem do pódio -->
-                    <ImageView fx:id="podiumImageView" fitHeight="400.0" fitWidth="600.0" pickOnBounds="true" preserveRatio="true" />
+                  <!-- Avatar 1 (1º lugar) -->
+                  <VBox alignment="CENTER" prefHeight="502.0" prefWidth="212.0">
+            
+                              <!-- Título Fim de Jogo -->
+                  <Label alignment="CENTER" prefHeight="111.0" prefWidth="308.0" styleClass="label" text="FIM DE JOGO!" />
+                      <ImageView fx:id="firstPlaceAvatar" fitHeight="100" fitWidth="100" />
+                      <Label fx:id="firstPlaceLabel" prefHeight="59.0" prefWidth="99.0" style="-fx-text-fill: gold;" text="1º Lugar" />
+                  </VBox>
 
-                    <!-- Avatares no pódio -->
-                    <HBox alignment="BOTTOM_CENTER" spacing="50">
-                        <!-- Avatar 2 (2º lugar) -->
-                        <VBox alignment="CENTER" prefHeight="211.0" prefWidth="100.0">
-                            <ImageView fx:id="secondPlaceAvatar" fitHeight="100" fitWidth="100" />
-                            <Label fx:id="secondPlaceLabel" prefHeight="66.0" prefWidth="102.0" style="-fx-text-fill: silver;" text="2º Lugar" />
-                        </VBox>
-
-                        <!-- Avatar 1 (1º lugar) -->
-                        <VBox alignment="CENTER" prefWidth="100.0">
-                            <ImageView fx:id="firstPlaceAvatar" fitHeight="100" fitWidth="100" />
-                            <Label fx:id="firstPlaceLabel" prefHeight="59.0" prefWidth="99.0" style="-fx-text-fill: gold;" text="1º Lugar" />
-                        </VBox>
-
-                        <!-- Avatar 3 (3º lugar) -->
-                        <VBox alignment="CENTER">
-                            <ImageView fx:id="thirdPlaceAvatar" fitHeight="100" fitWidth="100" />
-                            <Label fx:id="thirdPlaceLabel" prefHeight="34.0" prefWidth="79.0" style="-fx-text-fill: orange;" text="3º Lugar" />
-                        </VBox>
-                    </HBox>
-                </children>
-            </StackPane>
-        </children>
-    </AnchorPane>
+                  <!-- Avatar 3 (3º lugar) -->
+                  <VBox alignment="CENTER" prefHeight="503.0" prefWidth="170.0">
+                      <ImageView fx:id="thirdPlaceAvatar" fitHeight="100" fitWidth="100" />
+                      <Label fx:id="thirdPlaceLabel" prefHeight="34.0" prefWidth="79.0" style="-fx-text-fill: orange;" text="3º Lugar" />
+                  </VBox>
+              </HBox>
+          </children>
+      </StackPane>
 </VBox>

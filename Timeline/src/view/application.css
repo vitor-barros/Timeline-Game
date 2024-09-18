@@ -61,68 +61,13 @@
     -fx-padding: 5px;
     -fx-effect: dropshadow(gaussian, rgba(255, 215, 0, 0.5), 10, 0.5, 0, 0);
 }
-/* Estilo geral do menu de fim de jogo */
-/* Estilo geral do menu de fim de jogo */
-#backgroundPane {
-    -fx-background-color: linear-gradient(to bottom, #FFF5BF, #E8C38F); /* Fundo suave para criar um ambiente acolhedor */
-    -fx-padding: 20px;
-}
-
-/* Estilo do "card" de pergaminho */
-#backgroundPane .stack-pane {
-    -fx-background-color: #F2E9BD; /* Cor de fundo de pergaminho */
-    -fx-background-radius: 20px;
-    -fx-border-radius: 20px;
-    -fx-border-width: 5px;
-    -fx-border-color: #D97D48; /* Bordas vermelhas para o estilo pergaminho */
-    -fx-effect: dropshadow(gaussian, #8C3623, 10, 0.5, 0, 0); /* Efeito de sombra para criar profundidade */
-    -fx-padding: 20px;
-}
-
-/* Título "FIM DE JOGO" */
-#backgroundPane .label {
-    -fx-font-family: "Georgia", serif; /* Fonte com estilo clássico */
-    -fx-font-size: 36px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #011826; /* Texto em azul escuro para contraste */
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 5, 0.5, 0, 0); /* Efeito de sombra suave */
-}
-
-/* Estilo dos avatares no pódio */
-#podiumImageView {
-    -fx-border-color: #D97D48; /* Bordas vermelhas para o pódio */
-    -fx-border-width: 3px;
-    -fx-background-radius: 15px;
-    -fx-border-radius: 15px;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.5, 0, 0); /* Sombra para profundidade */
-}
-
-/* Ajustes dos avatares no pódio */
-#secondPlaceAvatar, #firstPlaceAvatar, #thirdPlaceAvatar {
-    -fx-background-radius: 50px; /* Avatares circulares */
-    -fx-border-width: 2px;
-    -fx-border-color: #F2CB9B; /* Borda clara para destacar os avatares */
-}
-
-/* Labels do pódio */
-#firstPlaceLabel {
+#labelDescricaoEvento {
+	-fx-font-family: "Georgia", serif; /* Fonte manuscrita com um toque antigo */
     -fx-font-size: 20px;
-    -fx-font-family: "Georgia", serif;
+    -fx-text-fill: #011826;
     -fx-font-weight: bold;
-    -fx-text-fill: gold;
 }
 
-#secondPlaceLabel {
-    -fx-font-size: 18px;
-    -fx-font-family: "Georgia", serif;
-    -fx-text-fill: silver;
-}
+/* Estilo geral do menu de fim de jogo */
 
-#thirdPlaceLabel {
-    -fx-font-size: 18px;
-    -fx-font-family: "Georgia", serif;
-    -fx-text-fill: #D97D48; /* Cor laranja para o terceiro lugar */
-}
-
-/* Botões de opções */
 

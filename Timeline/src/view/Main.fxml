@@ -51,6 +51,9 @@
                </children>
             </VBox>
          </children>
+         <VBox.margin>
+            <Insets top="20.0" />
+         </VBox.margin>
       </HBox>
       
       <!-- Imagem do título -->
@@ -65,10 +68,10 @@
          <children>
             <AnchorPane prefHeight="165.0" prefWidth="600.0">
                <children>
-                  <Button fx:id="playButton" layoutX="167.0" layoutY="41.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Jogar" />
-                  <Button fx:id="optionsButton" layoutX="337.0" layoutY="105.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Opções" />
-                  <Button fx:id="instructionsButton" layoutX="167.0" layoutY="105.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Instruções" />
-                  <Button fx:id="exitButton" layoutX="337.0" layoutY="41.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Sair" />
+                  <Button fx:id="playButton" layoutX="167.0" layoutY="41.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="121.0" text="Jogar" />
+                  <Button fx:id="optionsButton" layoutX="337.0" layoutY="105.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" text="Opções" />
+                  <Button fx:id="instructionsButton" layoutX="167.0" layoutY="105.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="121.0" text="Instruções" />
+                  <Button fx:id="exitButton" layoutX="337.0" layoutY="41.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="100.0" text="Sair" />
                </children>
             </AnchorPane>
          </children>
