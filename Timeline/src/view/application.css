@@ -1,10 +1,10 @@
 /* Definições gerais */
 #rootVBox {
     -fx-background-color: linear-gradient(to bottom, #FFF5BF, #E8C38F);
+    -fx-alignment: center;
 }
 
 .root {
-    /* Definir uma cor inicial que será alterada pela animação */
     -fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #FFF5BF, #E8C38F);
 }
 
@@ -38,6 +38,13 @@
     -fx-text-fill: #011826; /* Cor do texto dos labels */
 }
 
+/* Estilo da label do vencedor */
+#winnerLabel {
+    -fx-font-size: 24px;
+    -fx-text-fill: #D97D48; /* Destaque de cor para a mensagem do vencedor */
+    -fx-alignment: center;
+}
+
 /* Estilo dos ImageViews */
 .image-view {
     -fx-background-color: #F2E9BD; /* Cor de fundo dos ImageViews */
@@ -47,7 +54,41 @@
     -fx-background-radius: 15px; /* Arredondamento do fundo */
 }
 
-/* Estilo dos sliders */
+/* Estilo do pódio */
+#podiumImageView {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 15, 0.5, 0, 0);
+    -fx-padding: 10;
+}
+
+/* Estilo dos avatares dos jogadores no pódio */
+#firstPlaceAvatar, #secondPlaceAvatar, #thirdPlaceAvatar {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 15, 0.5, 0, 0);
+}
+
+#firstPlaceLabel {
+    -fx-text-fill: gold;
+    -fx-font-weight: bold;
+}
+
+#secondPlaceLabel {
+    -fx-text-fill: silver;
+    -fx-font-weight: bold;
+}
+
+#thirdPlaceLabel {
+    -fx-text-fill: #cd7f32;
+    -fx-font-weight: bold;
+}
+
+/* Estilo da label de descrição do evento */
+#labelDescricaoEvento {
+    -fx-font-family: "Georgia", serif; /* Fonte manuscrita com um toque antigo */
+    -fx-font-size: 20px;
+    -fx-text-fill: #011826;
+    -fx-font-weight: bold;
+}
+
+/* Estilo do slider */
 .slider {
     -fx-background-color: #F2E9BD; /* Cor de fundo do slider */
     -fx-accent: #D97D48; /* Cor do indicador do slider */
@@ -61,13 +102,3 @@
     -fx-padding: 5px;
     -fx-effect: dropshadow(gaussian, rgba(255, 215, 0, 0.5), 10, 0.5, 0, 0);
 }
-#labelDescricaoEvento {
-	-fx-font-family: "Georgia", serif; /* Fonte manuscrita com um toque antigo */
-    -fx-font-size: 20px;
-    -fx-text-fill: #011826;
-    -fx-font-weight: bold;
-}
-
-/* Estilo geral do menu de fim de jogo */
-
-
