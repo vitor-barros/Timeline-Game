@@ -84,11 +84,25 @@ public class GameController {
         players.add(new Player("Jogador 3", new Image("/images/avatar3.png")));
         players.add(new Player("Jogador 4", new Image("/images/avatar4.png")));
         eventos = new ArrayList<>();
-        eventos.add(new EventosHistoricos("Independência do Brasil", 1822, "/images/avatar1.png"));
-        eventos.add(new EventosHistoricos("Revolução Francesa", 1789, "/images/avatar2.png"));
-        eventos.add(new EventosHistoricos("Primeira Guerra Mundial", 1914, "/images/avatar3.png"));
+        
         eventos.add(new EventosHistoricos("Publicação de \"A Origem das Espécies\" por Charles Darwin.", 1859, "/images/evento01.jpeg"));
         eventos.add(new EventosHistoricos("Descobrimento do Brasil", 1500, "/images/evento02.jpeg"));
+        eventos.add(new EventosHistoricos("Independência do Brasil", 1822, "/images/evento03.jpeg"));
+        eventos.add(new EventosHistoricos("Revolução Francesa", 1789, "/images/evento04.jpeg"));
+        eventos.add(new EventosHistoricos("Primeira Guerra Mundial", 1914, "/images/evento05.jpeg"));
+        eventos.add(new EventosHistoricos("Queda do Império Romano do Ocidente", 476, "/images/evento06.jpeg"));
+        eventos.add(new EventosHistoricos("Abolição da Escravatura no Brasil", 1888, "/images/evento07.jpeg"));
+        eventos.add(new EventosHistoricos("Getúlio Vargas assume o poder", 1930, "/images/evento08.jpeg"));
+        eventos.add(new EventosHistoricos("Inauguração de Brasília", 1960, "/images/evento09.jpeg"));
+        eventos.add(new EventosHistoricos("Fim da ditadura militar", 1985, "/images/evento10.jpeg"));
+        eventos.add(new EventosHistoricos("Promulgação da Constituição Brasileira", 1988, "/images/evento11.jpeg"));
+        eventos.add(new EventosHistoricos("Queda do Muro de Berlim", 1989, "/images/evento12.jpeg"));
+        eventos.add(new EventosHistoricos("Fim do apartheid na África do Sul", 1994, "/images/evento13.jpeg"));
+        eventos.add(new EventosHistoricos("Início da pandemia de COVID-19", 2019, "/images/evento14.jpeg"));
+
+
+        
+        
         
         round = new Round(players, 4);  // Define o número máximo de rodadas como 5, (A  RODADA COMEÇA NO 0)
         iniciarRodadaComEventoAleatorio();
@@ -96,7 +110,7 @@ public class GameController {
         atualizarTurno(); // Adiciona chamada para atualizar o nome do jogador na primeira rodada
 
         if (timerController != null) {
-            timerController.startRoundTimer(15, this::endPlayerTurn);
+            timerController.startRoundTimer(20, this::endPlayerTurn);
         }
     }
 
@@ -111,7 +125,7 @@ public class GameController {
         } else {
             currentPlayerIndex++;
             atualizarTurno();
-            timerController.startRoundTimer(15, this::endPlayerTurn);
+            timerController.startRoundTimer(20, this::endPlayerTurn);
         }
     }
     		// Passa para o próximo jogador ou finaliza a rodada
@@ -130,7 +144,7 @@ public class GameController {
         } else {
             currentPlayerIndex++;
             atualizarTurno();
-            timerController.startRoundTimer(15, this::endPlayerTurn);
+            timerController.startRoundTimer(20, this::endPlayerTurn);
         }
     }
 
@@ -156,12 +170,11 @@ public class GameController {
                 round.nextRound();
                 iniciarRodadaComEventoAleatorio();
                 atualizarTurno();
-                timerController.startRoundTimer(15, this::endPlayerTurn);
+                timerController.startRoundTimer(20, this::endPlayerTurn);
             }
     }
 
     private void atribuirPontuacoes() {
-        // Exemplo de lógica: o jogador que acertar o ano exato recebe 10 pontos, os demais recebem 1 ponto
         for (Player player : players) {
             int guess = player.getLastGuess();
             int diferenca = Math.abs(guess - anoCorreto);
@@ -282,11 +295,11 @@ public class GameController {
     }
     private void showEndGameScreen() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/endgame.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Endgame.fxml"));
             Parent root = loader.load();
             
             EndGameController endGameController = loader.getController();
-            endGameController.setPlayers(this.players);
+            endGameController.setPlayers(players);
             
             
             Stage stage = (Stage) rootVBox.getScene().getWindow();

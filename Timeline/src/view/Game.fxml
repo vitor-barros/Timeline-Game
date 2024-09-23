@@ -105,7 +105,7 @@
             <VBox prefHeight="39.0" prefWidth="214.0">
                <children>
                   <ProgressBar fx:id="progressBarTimer" prefHeight="32.0" prefWidth="214.0" progress="1.0" />
-                  <Label fx:id="timerLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="214.0" text="15 s" />
+                  <Label fx:id="timerLabel" alignment="CENTER" contentDisplay="CENTER" prefHeight="30.0" prefWidth="214.0" text="20 s" />
                </children>
             </VBox>
          </children>

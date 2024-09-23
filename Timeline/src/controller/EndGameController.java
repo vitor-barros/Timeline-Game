@@ -3,6 +3,7 @@ package controller;
 import java.util.List;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -10,6 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.stage.Stage;
 import model.Player;
 
 public class EndGameController {
@@ -18,17 +20,21 @@ public class EndGameController {
     @FXML
     private ImageView imagePergaminho, podiumImageView, firstPlaceAvatar, secondPlaceAvatar, thirdPlaceAvatar;
     @FXML
-    private Label firstPlaceLabel, secondPlaceLabel, thirdPlaceLabel;
+    private Label winnerLabel, firstPlaceLabel, secondPlaceLabel, thirdPlaceLabel;
+    @FXML
+    private Button exitButton, menuButton;
     @FXML
     private VBox rootVBox;
-    @FXML
     private List<Player> players;
 
+    // Este método será chamado para definir a lista de jogadores
     public void setPlayers(List<Player> players) {
         this.players = players;
-        initializeAvatars();
+        initializeAvatars();  // Inicializa os avatares com a lista atualizada de jogadores
+        initializeWinner();    // Atualiza o rótulo do vencedor
     }
 
+    // Inicializa os avatares e rótulos de cada jogador
     private void initializeAvatars() {
         if (players != null && players.size() >= 3) {
             firstPlaceAvatar.setImage(players.get(0).getAvatar());
@@ -41,8 +47,19 @@ public class EndGameController {
         }
     }
 
+    // Atualiza o rótulo do vencedor
+    private void initializeWinner() {
+        if (players != null && !players.isEmpty()) {
+            winnerLabel.setText("O vencedor é: " + players.get(0).getName());
+        }
+    }
+
+    // Método chamado automaticamente após o carregamento do FXML
     public void initialize() {
-        initializeAvatars();
+    	// Configura os eventos dos botões
+    	 exitButton.setOnAction(event -> exitGame());
+    	 
+    	
         if (rootVBox != null) {
             backgroundVideoEnd.fitWidthProperty().bind(rootVBox.widthProperty());
             backgroundVideoEnd.fitHeightProperty().bind(rootVBox.heightProperty());
@@ -54,25 +71,24 @@ public class EndGameController {
         String videoPath = getClass().getResource("/images/backgroundImage3_animation.mp4").toExternalForm();
         Media media = new Media(videoPath);
         MediaPlayer mediaPlayer = new MediaPlayer(media);
-
-        // Configurar o MediaPlayer para reproduzir continuamente em loop
-        //mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-
-        // Configurar o MediaView com o MediaPlayer
         backgroundVideoEnd.setMediaPlayer(mediaPlayer);
+        mediaPlayer.play();  // Iniciar a reprodução do vídeo
 
-        // Iniciar a reprodução do vídeo
-        mediaPlayer.play();
-      
-        
+        // Carregar as imagens
         Image pergaminhoImage = new Image(getClass().getResourceAsStream("/images/pergaminho2hd.png"));
         imagePergaminho.setImage(pergaminhoImage);
-        
+
         Image podiumImage = new Image(getClass().getResourceAsStream("/images/podium2hd.png"));
         podiumImageView.setImage(podiumImage);
-        
+
+        // Ajustar o tamanho da imagem do pergaminho
         imagePergaminho.fitHeightProperty().bind(rootVBox.heightProperty());
         imagePergaminho.setFitWidth(700);
-        
     }
+
+    private void exitGame() {
+        Stage stage = (Stage) exitButton.getScene().getWindow();
+        stage.close();
+    }
+
 }
