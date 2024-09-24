@@ -49,11 +49,13 @@ public class GameController {
     private int currentPlayerIndex = 0;
     private List<EventosHistoricos> eventos;
     private int anoCorreto;
+    private int maxRounds = 5;
     @FXML
     private TimerController timerController;
 
     @FXML
     public void initialize() {
+    	
         timerController = new TimerController();
         if (timerController == null) {
             System.out.println("Erro: TimerController não foi injetado!");
@@ -104,7 +106,7 @@ public class GameController {
         
         
         
-        round = new Round(players, 4);  // Define o número máximo de rodadas como 5, (A  RODADA COMEÇA NO 0)
+        round = new Round(players, maxRounds);  // Define o número máximo de rodadas como 5, (A  RODADA COMEÇA NO 0)
         iniciarRodadaComEventoAleatorio();
         atualizarLabels();
         atualizarTurno(); // Adiciona chamada para atualizar o nome do jogador na primeira rodada
@@ -145,6 +147,7 @@ public class GameController {
             currentPlayerIndex++;
             atualizarTurno();
             timerController.startRoundTimer(20, this::endPlayerTurn);
+            
         }
     }
 
@@ -159,19 +162,20 @@ public class GameController {
         for (Player player : players) {
             System.out.println(player.getName() + ": " + player.getGuesses());
         }
-            if (round.isGameOver()) {
-                // Finalizar o jogo
-                System.out.println("Fim do jogo! Pontuações finais: ");
-                for (Player player : players) {
-                    System.out.println(player.getName() + ": " + player.getPoints() + " pontos");
-                }
-                showEndGameScreen();     // inicia a tela de fim de jogo
-            } else {
-                round.nextRound();
-                iniciarRodadaComEventoAleatorio();
-                atualizarTurno();
-                timerController.startRoundTimer(20, this::endPlayerTurn);
+
+        if (round.isGameOver()) {
+            // Finalizar o jogo
+            System.out.println("Fim do jogo! Pontuações finais: ");
+            for (Player player : players) {
+                System.out.println(player.getName() + ": " + player.getPoints() + " pontos");
             }
+            showEndGameScreen(); // inicia a tela de fim de jogo
+        } else {
+            round.nextRound(); // Incrementa a rodada corretamente
+            iniciarRodadaComEventoAleatorio(); // Inicia a próxima rodada com um evento aleatório
+            atualizarTurno(); // Atualiza a vez do jogador
+            timerController.startRoundTimer(20, this::endPlayerTurn); // Inicia o timer para a próxima rodada
+        }
     }
 
     private void atribuirPontuacoes() {
@@ -206,7 +210,7 @@ public class GameController {
     public void atualizarTurno() {
         Player currentPlayer = players.get(currentPlayerIndex);
         currentPlayerLabel.setText("Vez de: " + currentPlayer.getName());
-        currentRodadaLabel.setText("RODADA: " + round.getCurrentRound() + " / " + (round.getMaxRounds() + 1));
+        currentRodadaLabel.setText("RODADA: " + round.getCurrentRound() + " / " + round.getMaxRounds());
         timelineSlider.setValue(1012.0); // valor inicial
     }
 
@@ -311,5 +315,12 @@ public class GameController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void setMaxRounds(int maxRounds) {
+        this.maxRounds = maxRounds;
+        if (round != null) {
+            round.setMaxRounds(maxRounds);
+        }
+        currentRodadaLabel.setText("RODADA: " + round.getCurrentRound() + " / " + round.getMaxRounds());
     }
 }

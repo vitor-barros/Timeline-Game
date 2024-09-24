@@ -1,8 +1,12 @@
 package controller;
 
+
 import java.util.List;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -22,7 +26,7 @@ public class EndGameController {
     @FXML
     private Label winnerLabel, firstPlaceLabel, secondPlaceLabel, thirdPlaceLabel;
     @FXML
-    private Button exitButton, menuButton;
+    private Button exitButton, menuButton, statsButton;
     @FXML
     private VBox rootVBox;
     private List<Player> players;
@@ -58,7 +62,7 @@ public class EndGameController {
     public void initialize() {
     	// Configura os eventos dos botões
     	 exitButton.setOnAction(event -> exitGame());
-    	 
+    	 statsButton.setOnAction(event -> showStats());
     	
         if (rootVBox != null) {
             backgroundVideoEnd.fitWidthProperty().bind(rootVBox.widthProperty());
@@ -89,6 +93,27 @@ public class EndGameController {
     private void exitGame() {
         Stage stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
+    }
+    private void showStats() {
+    	// No controlador principal
+    	try {
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Stats.fxml"));
+        	Parent root = loader.load();
+        	StatsController statsController = loader.getController();
+        	statsController.initializeStats(players, 0); // Lista de jogadores do jogo
+
+        	
+        	Stage stage = new Stage();
+        	Scene statsScene = new Scene(root);
+            statsScene.getStylesheets().add(getClass().getResource("/view/application.css").toExternalForm());
+        	stage.setTitle("Estatísticas da partida");
+        	stage.setScene(statsScene);
+        	stage.show();
+    	} catch(Exception e) {
+    		e.printStackTrace();
+    	}
+    	
+
     }
 
 }

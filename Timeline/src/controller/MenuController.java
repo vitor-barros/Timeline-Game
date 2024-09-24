@@ -5,12 +5,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.stage.Stage;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Stage;
 
 public class MenuController {
 
@@ -46,14 +46,15 @@ public class MenuController {
     @FXML
     private Label statusLabel;
 
+    private int selectedRounds = 5; // Valor padrão
+
     @FXML
     private void initialize() {
-    	 // Carregar a imagem do título
+        // Carregar a imagem do título
         Image title = new Image(getClass().getResourceAsStream("/images/titulo2removebghd.png"));
-       
-		titleImage.setImage(title);
-    	
-    	// Carrega as imagens dos avatares
+        titleImage.setImage(title);
+        
+        // Carrega as imagens dos avatares
         Image avatar1 = new Image(getClass().getResourceAsStream("/images/avatar1.png"));
         Image avatar2 = new Image(getClass().getResourceAsStream("/images/avatar2.png"));
         Image avatar3 = new Image(getClass().getResourceAsStream("/images/avatar3.png"));
@@ -64,7 +65,7 @@ public class MenuController {
         player2Avatar.setImage(avatar2);
         player3Avatar.setImage(avatar3);
         player4Avatar.setImage(avatar4);
-    	
+        
         // Configura os eventos dos botões
         playButton.setOnAction(event -> startGame());
         instructionsButton.setOnAction(event -> showInstructions());
@@ -96,16 +97,17 @@ public class MenuController {
                     player4Name.getText()
                 );
                 
-                // Opcional: Passa os avatares dos jogadores
-                
+                // Passa os avatares dos jogadores
                 gameController.setPlayerAvatars(
                     player1Avatar.getImage(),
                     player2Avatar.getImage(),
                     player3Avatar.getImage(),
                     player4Avatar.getImage()
                 );
-                
-                
+
+                // Passa o número de rodadas selecionado para o GameController
+                gameController.setMaxRounds(selectedRounds);
+
                 // Define a nova cena
                 Scene gameScene = new Scene(gameRoot);
                 gameScene.getStylesheets().add(getClass().getResource("/view/application.css").toExternalForm());
@@ -113,14 +115,8 @@ public class MenuController {
                 Stage primaryStage = (Stage) playButton.getScene().getWindow();
                 primaryStage.setScene(gameScene);
                 primaryStage.setTitle("Linha do Tempo - Jogando");
-                
-                primaryStage.setFullScreen(true); 
+                primaryStage.setFullScreen(true);
                 primaryStage.setFullScreenExitHint(""); // Remove a dica de sair do modo tela cheia
-                
-                // Ajusta o tamanho da janela conforme necessário
-//                primaryStage.setWidth(900);
-//                primaryStage.setHeight(700);
-//                primaryStage.centerOnScreen();
                 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -132,13 +128,31 @@ public class MenuController {
     }
 
     private void showInstructions() {
-        // Lógica para mostrar as instruções
         System.out.println("Mostrando instruções...");
     }
 
     private void showOptions() {
-        // Lógica para mostrar as opções
-        System.out.println("Mostrando opções...");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Options.fxml"));
+            Parent root = loader.load();
+            
+            // Obtém o controlador do OptionsController
+            OptionsController optionsController = loader.getController();
+            // Passa o número de rodadas atual para o OptionsController
+            optionsController.setSelectedRounds(selectedRounds);
+            
+            // Define uma callback para receber o valor atualizado
+            optionsController.setOnRoundsSelected(newRounds -> selectedRounds = newRounds);
+
+            Stage stage = new Stage();
+            Scene optionsScene = new Scene(root);
+            optionsScene.getStylesheets().add(getClass().getResource("/view/application.css").toExternalForm());
+
+            stage.setScene(optionsScene);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();   
+        }
     }
 
     private void exitGame() {

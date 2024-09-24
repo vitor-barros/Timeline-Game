@@ -5,8 +5,8 @@ import java.util.Comparator;
 
 public class Round {
     private List<Player> players;
-    private int currentRound;
-    private final int maxRounds;
+    public int currentRound;
+    private int maxRounds;
 
     public Round(List<Player> players, int maxRounds) {
         this.players = players;
@@ -15,15 +15,20 @@ public class Round {
     }
 
     public boolean isGameOver() {
-        return currentRound > maxRounds;
+        return currentRound == maxRounds;
     }
 
     public void nextRound() {
+        System.out.println("Tentando avançar para a próxima rodada. Rodada atual: " + currentRound);
         if (!isGameOver()) {
-            currentRound++;
-            sortPlayersByPoints(); // Reorganiza a ordem dos turnos com base nos pontos acumulados
+        	currentRound++;
+            System.out.println("Rodada incrementada para: " + currentRound);
+            sortPlayersByPoints();
+        } else {
+            System.out.println("O jogo já terminou. Não é possível avançar para a próxima rodada.");
         }
     }
+
 
     public int getCurrentRound() {
         return currentRound;
@@ -38,5 +43,8 @@ public class Round {
     }
     public int getMaxRounds() {
         return maxRounds;
+    }
+    public void setMaxRounds(int maxRounds) {
+    	 this.maxRounds = maxRounds;
     }
 }
