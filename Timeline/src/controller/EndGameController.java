@@ -17,6 +17,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.stage.Stage;
 import model.Player;
+import model.Round;
 
 public class EndGameController {
     @FXML
@@ -30,7 +31,11 @@ public class EndGameController {
     @FXML
     private VBox rootVBox;
     private List<Player> players;
-
+    private Round round;
+    
+    public void setRound(Round round) {
+    	this.round = round;
+    }
     // Este método será chamado para definir a lista de jogadores
     public void setPlayers(List<Player> players) {
         this.players = players;
@@ -100,7 +105,7 @@ public class EndGameController {
     		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/Stats.fxml"));
         	Parent root = loader.load();
         	StatsController statsController = loader.getController();
-        	statsController.initializeStats(players, 0); // Lista de jogadores do jogo
+        	statsController.initializeStats(players, round.getMaxRounds()); // Lista de jogadores do jogo
 
         	
         	Stage stage = new Stage();

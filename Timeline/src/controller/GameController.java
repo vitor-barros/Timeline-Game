@@ -304,6 +304,7 @@ public class GameController {
             
             EndGameController endGameController = loader.getController();
             endGameController.setPlayers(players);
+            endGameController.setRound(round);
             
             
             Stage stage = (Stage) rootVBox.getScene().getWindow();
@@ -323,4 +324,7 @@ public class GameController {
         }
         currentRodadaLabel.setText("RODADA: " + round.getCurrentRound() + " / " + round.getMaxRounds());
     }
+    
+    
+    
 }
