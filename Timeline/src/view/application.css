@@ -37,6 +37,14 @@
     -fx-font-size: 18px;
     -fx-text-fill: #011826; /* Cor do texto dos labels */
 }
+#timerLabel {
+	-fx-font-family: "Georgia", serif; /* Fonte manuscrita com um toque antigo */
+    -fx-font-size: 18px;
+    -fx-text-fill: #011826; /* Cor do texto dos labels */
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.75), 15, 0.5, 0, 0);
+    
+}
 
 /* Estilo da label do vencedor */
 #winnerLabel {
@@ -48,13 +56,24 @@
 }
 
 /* Estilo dos ImageViews */
-.image-view {
+#player1Card, #player2Card,
+#player3Card, #player4Card 
+{
     -fx-background-color: #F2E9BD; /* Cor de fundo dos ImageViews */
     -fx-border-color: #D97D48; /* Cor da borda dos ImageViews */
     -fx-border-width: 2px; /* Largura da borda */
     -fx-border-radius: 15px; /* Borda arredondada */
     -fx-background-radius: 15px; /* Arredondamento do fundo */
 }
+
+.rodada {
+    -fx-background-color: #F2E9BD; /* Cor de fundo dos ImageViews */
+    -fx-border-color: #D97D48; /* Cor da borda dos ImageViews */
+    -fx-border-width: 2px; /* Largura da borda */
+    -fx-border-radius: 15px; /* Borda arredondada */
+    -fx-background-radius: 15px; /* Arredondamento do fundo */
+}
+
 
 /* Estilo do pódio */
 #podiumImageView {
@@ -84,22 +103,58 @@
 
 /* Estilo da label de descrição do evento */
 #labelDescricaoEvento {
-    -fx-font-family: "Georgia", serif; /* Fonte manuscrita com um toque antigo */
-    -fx-font-size: 20px;
-    -fx-text-fill: #011826;
-    -fx-font-weight: bold;
+    -fx-font-family: 'Georgia', serif; /* Fonte clássica para evocar um tema histórico */
+    -fx-font-size: 20px; /* Tamanho grande para chamar atenção */
+    -fx-font-weight: bold; /* Texto em negrito para dar mais ênfase */
+    -fx-text-fill: #8C3623; /* Cor que combina com a paleta do jogo */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 4, 0.3, 2, 2); /* Sombra para destacar o texto */
+    -fx-background-color: rgba(255, 255, 255, 0.8); /* Fundo semi-transparente para realçar o título sobre a imagem */
+    -fx-padding: 10px; /* Espaçamento interno para dar mais destaque */
+    -fx-border-color: #D97D48; /* Borda sutil ao redor do texto */
+    -fx-border-width: 2px; /* Largura da borda */
+    -fx-border-radius: 5px; /* Bordas arredondadas */
+    -fx-background-radius: 5px; /* Arredondamento no fundo também */
+    -fx-alignment: center; /* Centraliza o texto dentro do label */
+    -fx-wrap-text: true; /* Permite quebra de linha caso o texto seja longo */
+    -fx-text-alignment: center; /* Alinha o texto ao centro */
 }
 
+
 /* Estilo do slider */
-.slider {
-    -fx-background-color: #F2E9BD; /* Cor de fundo do slider */
-    -fx-accent: #D97D48; /* Cor do indicador do slider */
+#timelineSlider {
+    -fx-pref-width: 400px; /* Largura preferida do slider */
+    -fx-padding: 5px; /* Espaçamento em volta do slider */
+    
+    /* Cor da barra do slider */
+    -fx-control-inner-background: #E4D1B9; /* Fundo da barra, um tom suave e claro */
+
+    /* Estilo do 'track', a linha do slider */
+    -fx-background-color: #CCB382; /* Cor do fundo da linha do slider */
+    -fx-background-radius: 5px; /* Arredondamento da linha */
+    -fx-background-insets: 0, 1; /* Margem interna */
+    -fx-opacity: 0.90;
 }
+    /* Estilo do 'thumb', o botão que é arrastado no slider */
+    .thumb {
+        -fx-background-color: #4A6B8B; /* Cor do 'thumb', um tom azul antigo */
+        -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 4, 0.3, 2, 2); /* Sombra suave para destacar o 'thumb' */
+        -fx-background-radius: 50%; /* Deixa o 'thumb' completamente circular */
+        -fx-padding: 9px; /* Tamanho do 'thumb' */
+    }
+
+  
+
+   
+    
+
+
+
+
 
 /* Estilo para o Label que exibe o ano atual */
 #currentYearLabel {
+	-fx-background-color: #F2E9BD;
     -fx-border-width: 3px;
-    -fx-border-color: linear-gradient(to right, #FFD700, #FFA500);
     -fx-border-radius: 10px;
     -fx-padding: 5px;
     -fx-effect: dropshadow(gaussian, rgba(255, 215, 0, 0.5), 10, 0.5, 0, 0);
@@ -107,4 +162,22 @@
 .grid-cell {
     -fx-border-color: black;
     -fx-border-width: 1px;
+}
+#imageViewEvento {
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.7), 10, 0.2, 0, 4); /* Sombra suave */
+    -fx-padding: 10; /* Espaço interno ao redor da imagem */
+    -fx-background-color: white; /* Fundo branco para destacar a imagem */
+    -fx-background-radius: 10; /* Bordas arredondadas para um efeito suave */
+    -fx-border-color: #8C3623; /* Cor da borda que combina com a paleta do jogo */
+    -fx-border-width: 3; /* Largura da borda */
+    -fx-border-radius: 10; /* Bordas arredondadas da borda */
+    
+    /* Efeito de transição ao passar o mouse sobre a imagem */
+    -fx-scale-x: 1;
+    -fx-scale-y: 1;
+}
+
+#imageViewEvento:hover {
+    -fx-scale-x: 1.05; /* Aumenta levemente o tamanho na horizontal ao passar o mouse */
+    -fx-scale-y: 1.05; /* Aumenta levemente o tamanho na vertical ao passar o mouse */
 }

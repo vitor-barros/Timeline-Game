@@ -23,7 +23,7 @@ public class Round {
         if (!isGameOver()) {
         	currentRound++;
             System.out.println("Rodada incrementada para: " + currentRound);
-            sortPlayersByPoints();
+            
         } else {
             System.out.println("O jogo já terminou. Não é possível avançar para a próxima rodada.");
         }

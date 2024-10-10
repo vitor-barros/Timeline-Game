@@ -47,7 +47,7 @@ public class StatsController {
             Label playerNameLabel = new Label(player.getName());
             statsGrid.add(playerNameLabel, 0, i + 1);
 
-            // Preencher as rodadas (garantir que não tentamos acessar mais rodadas do que existem)
+            // preenche as rodadas (garantir que não tente acessar mais rodadas do que existem)
             for (int j = 0; j < Math.min(numRounds, player.getGuesses().size()); j++) {
                 System.out.println("Jogador: " + player.getName() + ", Rodada " + (j + 1) + ": " + player.getGuesses().get(j));
                 Label roundScoreLabel = new Label(String.valueOf(player.getGuesses().get(j)));

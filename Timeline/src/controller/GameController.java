@@ -24,6 +24,8 @@ public class GameController {
     @FXML
     private VBox rootVBox;
     @FXML
+    private VBox player1Card, player2Card, player3Card, player4Card;
+    @FXML
     private Slider timelineSlider;
     @FXML
     private Label currentYearLabel, currentPlayerLabel, labelDescricaoEvento;
@@ -42,7 +44,7 @@ public class GameController {
     @FXML
     private Label player1GuessLabel, player2GuessLabel, player3GuessLabel, player4GuessLabel, currentRodadaLabel;
     @FXML
-    private ImageView player1Avatar, player2Avatar, player3Avatar, player4Avatar;
+    private ImageView backgroundImageView, player1Avatar, player2Avatar, player3Avatar, player4Avatar;
 
     private List<Player> players;
     private Round round; // pega a classe Round
@@ -63,7 +65,19 @@ public class GameController {
         }
         timerController.setProgressBar(progressBarTimer);
         timerController.setTimerLabel(timerLabel);
-
+        
+        if (rootVBox != null) {
+        	backgroundImageView.fitWidthProperty().bind(rootVBox.widthProperty());
+        	backgroundImageView.fitHeightProperty().bind(rootVBox.heightProperty());
+        } else {
+            System.out.println("rootVBox está nulo. Verifique se ele foi inicializado corretamente.");
+        }
+        
+        Image backgroundImage = new Image(getClass().getResourceAsStream("/images/tapeteBackground.jpeg"));
+        backgroundImageView.setImage(backgroundImage);
+        
+        
+        
         initializeGame();
         confirmButton.setOnAction(event -> confirmGuess());
         incrementButton.setOnAction(event -> incrementYear(1));
@@ -162,6 +176,7 @@ public class GameController {
         for (Player player : players) {
             System.out.println(player.getName() + ": " + player.getGuesses());
         }
+        round.sortPlayersByPoints();
 
         if (round.isGameOver()) {
             // Finalizar o jogo
@@ -206,13 +221,40 @@ public class GameController {
             anoCorreto = eventoSelecionado.getAnoCorreto();
         }
     }
+    
 
     public void atualizarTurno() {
         Player currentPlayer = players.get(currentPlayerIndex);
         currentPlayerLabel.setText("Vez de: " + currentPlayer.getName());
         currentRodadaLabel.setText("RODADA: " + round.getCurrentRound() + " / " + round.getMaxRounds());
         timelineSlider.setValue(1012.0); // valor inicial
+        
+        resetPlayerCardStyles();
+        
+        switch(currentPlayerIndex) {
+        case 0:
+            player1Card.setStyle("-fx-background-color: linear-gradient(to bottom right, #90EE90, #32CD32);");
+            break;
+        case 1:
+            player2Card.setStyle("-fx-background-color: linear-gradient(to bottom right, #90EE90, #32CD32);");
+            break;
+        case 2:
+            player3Card.setStyle("-fx-background-color: linear-gradient(to bottom right, #90EE90, #32CD32);");
+            break;
+        case 3:
+            player4Card.setStyle("-fx-background-color: linear-gradient(to bottom right, #90EE90, #32CD32);");
+            break;	
+        }
+        
     }
+    
+    private void resetPlayerCardStyles() {
+        player1Card.setStyle(null);
+        player2Card.setStyle(null);
+        player3Card.setStyle(null);
+        player4Card.setStyle(null);
+    }
+    
 
     public void atualizarImagemEvento(String caminhoImagem) {
         Image image = new Image(getClass().getResourceAsStream(caminhoImagem));
